@@ -9,11 +9,12 @@
 
 #pragma once
 
-#include <nvml.h>
 #include <stdio.h>
 
 #include <cstdio>
 #include <cstdlib>
+
+#include "../include/nvml.h"
 
 nvmlReturn_t offset_clock(const nvmlDevice_t gpu_handle,
                           const nvmlClockType_t clk_domain,

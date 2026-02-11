@@ -1,11 +1,14 @@
+// uhh, yeah, string for std::string, the other for basename
 #include <confuse.h>
-#include <nvml.h>
+#include <string.h>
 #include <unistd.h>
 
-#include <cstring>
+#include <cstdlib>
+#include <string>
 
-#include "./offset.cu"
-#include "./select-device.cu"
+#include "../include/nvml.h"
+#include "./offset.cpp"
+#include "./select-device.cpp"
 
 #define FREQ_LIMIT 2500
 
@@ -50,11 +53,11 @@ int main(int argc, char* argv[]) {
   // A very sloppy implementation indeed ;)
   // But then it's not like you can use C++ strings anyway
   // https://stackoverflow.com/a/9917145
-  char conf_path[STRING_BUF_SIZE];
+  // char conf_path[STRING_BUF_SIZE];
+  std::string conf_path;
   const char* strings[] = {"/etc/", basename(argv[0]), ".conf"};
 
-  for (auto str : *&strings)
-    strncat(conf_path, str, sizeof(conf_path) - strlen(conf_path) - 1);
+  for (auto str : *&strings) conf_path.append(str);
 
   cfg_opt_t opts[] = {CFG_INT(GRAPHICS, 0, CFGF_NONE),
                       CFG_INT(GRAPHICS_MIN, 0, CFGF_NONE),
@@ -68,12 +71,12 @@ int main(int argc, char* argv[]) {
   cfg_set_validate_func(cfg, GRAPHICS_MAX, validate_clk_cap_limit);
   cfg_set_validate_func(cfg, MEMORY, validate_clk_limit);
 
-  switch (cfg_parse(cfg, conf_path)) {
+  switch (cfg_parse(cfg, conf_path.c_str())) {
     case CFG_SUCCESS:
       break;
     case CFG_FILE_ERROR:
     case CFG_PARSE_ERROR:
-      printf("Failed to open file \"%s\"\n", conf_path);
+      printf("Failed to open file \"%s\"\n", conf_path.c_str());
       cfg_free(cfg);
       return EXIT_FAILURE;
   }

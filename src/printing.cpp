@@ -2,8 +2,9 @@
 // good reason, the compiler won't even touch it
 #pragma once
 
-#include <nvml.h>
 #include <stdio.h>
+
+#include "../include/nvml.h"
 
 /**
  * For debugging purpose

@@ -5,7 +5,7 @@ CU := nvcc
 CUFLAGS := -O3 -arch=sm_86
 LINKS := -lnvidia-ml -lconfuse
 
-SRC := ./src/main.cu
+SRC := ./src/main.cpp
 BUILD_DIR := ./build
 INSTALL_DIR := /usr/local/bin/
 

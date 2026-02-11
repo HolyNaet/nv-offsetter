@@ -1,27 +1,27 @@
 #pragma once
 
-#include <nvml.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 #include <cstdlib>
 
-#include "./printing.cu"
+#include "../include/nvml.h"
+// #include "./printing.cpp"
 
-int select_device_index(const unsigned int dev_count) {
-  int devIdx = -1;
-
-  while (1) {
-    for (unsigned int i = 0; i < dev_count; ++i) printDevice(i);
-
-    printf("Choose which device to select: ");
-    scanf("%d", &devIdx);
-
-    if (devIdx >= 0 && devIdx < dev_count) break;
-    printf("Invalid Device ID, try again.\n");
-  }
-
-  return devIdx;
-}
+// int select_device_index(const unsigned int dev_count) {
+//   int devIdx = -1;
+//
+//   while (1) {
+//     for (unsigned int i = 0; i < dev_count; ++i) printDevice(i);
+//
+//     printf("Choose which device to select: ");
+//     scanf("%d", &devIdx);
+//
+//     if (devIdx >= 0 && devIdx < dev_count) break;
+//     printf("Invalid Device ID, try again.\n");
+//   }
+//
+//   return devIdx;
+// }
 
 int get_uuid(char* uuid) {
   int gpu_idx = 0;

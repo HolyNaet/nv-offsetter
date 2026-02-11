@@ -25,21 +25,21 @@ int select_device_index(const unsigned int dev_count) {
 
 int get_uuid(char* uuid) {
   int gpu_idx = 0;
-  unsigned int device_count = 0;
+  // unsigned int device_count = 0;
 
   nvmlDevice_t device;
   nvmlReturn_t code;
 
-  code = nvmlDeviceGetCount_v2(&device_count);
-  if (!device_count || code != NVML_SUCCESS) return EXIT_FAILURE;
+  // code = nvmlDeviceGetCount_v2(&device_count);
+  // if (!device_count || code != NVML_SUCCESS) return EXIT_FAILURE;
 
   // SLI is dead, typical laptops or desktop setups only have one dGPU
   // NVML is smart enough anyway, is it even worth implementing this?
-  if (device_count > 1) {
-    printf("\nMultiple GPU devices detected.\n");
-    gpu_idx = select_device_index(device_count);
-  }
-  if (gpu_idx == -1) return EXIT_FAILURE;
+  // if (device_count > 1) {
+  //   printf("\nMultiple GPU devices detected.\n");
+  //   gpu_idx = select_device_index(device_count);
+  // }
+  // if (gpu_idx == -1) return EXIT_FAILURE;
 
   code = nvmlDeviceGetHandleByIndex_v2(gpu_idx, &device);
   if (code != NVML_SUCCESS) return EXIT_FAILURE;

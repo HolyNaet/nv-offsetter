@@ -10,8 +10,6 @@ It specifically aims to:
 - Offset graphics and memory clocks
 - Cap minimum and maximum graphics clocks
 - Be minimal
-- Be a daemon (not yet implemented)
-- Able to read from a config (also not yet implemented)
 
 And does not:
 - Have a GUI
@@ -23,6 +21,7 @@ Todo list:
 - [ ] Conf priority(?)
 - [ ] Make types more concise (it's all int ATM)
 - [ ] Proper frequency cap
+- [ ] Systemd daemon file
 
 ## Development
 

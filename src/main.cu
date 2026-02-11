@@ -5,7 +5,7 @@
 #include <cstring>
 
 #include "./offset.cu"
-#include "./select-gpu.cu"
+#include "./select-device.cu"
 
 #define FREQ_LIMIT 2500
 

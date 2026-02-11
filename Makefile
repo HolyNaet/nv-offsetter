@@ -16,7 +16,8 @@ all: ${SRC} get-header
 
 # It might not work for you, but at least it works for Arch
 get-nvml-header:
-	cp /opt/cuda/targets/x86_64-linux/include/nvml.h ./include
+	mkdir ./include
+	cp /opt/cuda/targets/x86_64-linux/include/nvml.h ./include/
 
 # Yeah, it's sloppy, but what are you going to do do about it?
 install: all

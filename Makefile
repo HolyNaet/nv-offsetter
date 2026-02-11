@@ -1,6 +1,5 @@
 TARGET := nv-offsetter
 
-ESCALATE := sudo
 CXX := g++
 CXXFLAGS := -O3 -Wall -Wpedantic
 # CU := nvcc
@@ -23,15 +22,15 @@ get-nvml-header:
 	cp /opt/cuda/targets/x86_64-linux/include/nvml.h ./include/
 
 # Yeah, it's sloppy, but what are you going to do do about it?
-install: all
-	${ESCALATE} install -Dm755 ${BUILD_DIR}/${TARGET} ${INSTALL_DIR}
+install-local: all
+	install -Dm755 ${BUILD_DIR}/${TARGET} ${INSTALL_DIR}
 
 .PHONY: test
 test: all
 	@echo "There isn't proper test yet, sorry!"
-	${ESCALATE} ${BUILD_DIR}/${TARGET}
+	${BUILD_DIR}/${TARGET}
 
 .PHONY: clean
 clean:
 	rm -r ${BUILD_DIR}
-	${ESCALATE} rm ${INSTALL_DIR}${TARGET}
+	rm ${INSTALL_DIR}${TARGET}

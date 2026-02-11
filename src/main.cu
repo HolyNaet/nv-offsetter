@@ -5,7 +5,7 @@
 #include <cstring>
 
 #include "./offset.cu"
-#include "./select-gpu.cu"
+#include "./select-device.cu"
 
 #define FREQ_LIMIT 2500
 
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  ret_code = getUUID(uuid);
+  ret_code = get_uuid(uuid);
   if (ret_code != EXIT_SUCCESS) {
     printf("Failed to retrieve UUID\n");
     return EXIT_FAILURE;
@@ -115,7 +115,7 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  ret_code = offset_clocks(gpu, graphics_offset, graphics_clk_range, mem_offset,
+  ret_code = offset_device(gpu, graphics_offset, graphics_clk_range, mem_offset,
                            MEM_MULT);
   if (ret_code != EXIT_SUCCESS) {
     printf("Something went wrong\n");

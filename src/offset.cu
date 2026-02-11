@@ -16,52 +16,54 @@
 #include <cstdlib>
 
 nvmlReturn_t offset_clock(const nvmlDevice_t gpu_handle,
-                          nvmlClockOffset_v1_t clk_offset) {
-  nvmlReturn_t ret_code = NVML_SUCCESS;
-  nvmlClockOffset_v1_t temp_offset = clk_offset;
+                          const nvmlClockType_t clk_domain,
+                          const int clk_offset) {
+  // Too bad my GPU doesn't support SM nor Video clocks offset
+  // Not like I expect it to be used on any enterprise stuff anyway
+  if (clk_domain == 1 || clk_domain == 3) return NVML_ERROR_NOT_SUPPORTED;
 
-  ret_code = nvmlDeviceGetClockOffsets(gpu_handle, &temp_offset);
+  nvmlReturn_t ret_code = NVML_SUCCESS;
+  nvmlClockOffset_v1_t clk_target = {
+      .version = nvmlClockOffset_v1,
+      .type = clk_domain,
+  };
+
+  ret_code = nvmlDeviceGetClockOffsets(gpu_handle, &clk_target);
   if (ret_code != NVML_SUCCESS)
     printf("Warning: Failed to retrieve current clock offsets, ignoring\n");
-  else if (clk_offset.clockOffsetMHz == temp_offset.clockOffsetMHz) {
+  else if (clk_offset == clk_target.clockOffsetMHz) {
     printf("Target offset clock not changed, skipping\n");
     return ret_code;
   }
-  ret_code = nvmlDeviceSetClockOffsets(gpu_handle, &clk_offset);
 
+  clk_target.clockOffsetMHz = clk_offset;
+  ret_code = nvmlDeviceSetClockOffsets(gpu_handle, &clk_target);
   return ret_code;
 }
 
-int offset_clocks(const nvmlDevice_t gpu_handle, const int core_offset,
-                  const unsigned int core_clk_range[2], const int mem_offset,
-                  const int mem_mult) {
+int offset_device(const nvmlDevice_t gpu_handle, const int graphics_offset,
+                  const unsigned int graphics_clk_range[2],
+                  const int mem_offset, const int mem_mult) {
   nvmlReturn_t ret_code;
-  nvmlClockOffset_v1_t clk_offset = {nvmlClockOffset_v1};
 
-  printf("Clamping graphics clocks to [%u, %u]MHz\n", core_clk_range[0],
-         core_clk_range[1]);
-  ret_code = nvmlDeviceSetGpuLockedClocks(gpu_handle, core_clk_range[0],
-                                          core_clk_range[1]);
+  printf("Clamping graphics clocks to [%u, %u]MHz\n", graphics_clk_range[0],
+         graphics_clk_range[1]);
+  ret_code = nvmlDeviceSetGpuLockedClocks(gpu_handle, graphics_clk_range[0],
+                                          graphics_clk_range[1]);
   if (ret_code != NVML_SUCCESS) {
     printf("Failed to clamp: %s", nvmlErrorString(ret_code));
     return EXIT_FAILURE;
   }
 
-  clk_offset.type = NVML_CLOCK_GRAPHICS;
-  clk_offset.clockOffsetMHz = core_offset;
-  printf("Attempting to offset core clock by %dMHz\n",
-         clk_offset.clockOffsetMHz);
-  ret_code = offset_clock(gpu_handle, clk_offset);
+  printf("Attempting to offset graphics clock by %dMHz\n", graphics_offset);
+  ret_code = offset_clock(gpu_handle, NVML_CLOCK_GRAPHICS, graphics_offset);
   if (ret_code != NVML_SUCCESS) {
     printf("Failed to offset: %s\n", nvmlErrorString(ret_code));
     return EXIT_FAILURE;
   }
 
-  clk_offset.type = NVML_CLOCK_MEM;
-  clk_offset.clockOffsetMHz = mem_mult * mem_offset;
-  printf("Attempting to offfset memory clocks by %dMHz\n",
-         clk_offset.clockOffsetMHz / mem_mult);
-  ret_code = offset_clock(gpu_handle, clk_offset);
+  printf("Attempting to offset memory clock by %dMHz\n", mem_offset);
+  ret_code = offset_clock(gpu_handle, NVML_CLOCK_MEM, mem_offset * mem_mult);
   if (ret_code != NVML_SUCCESS) {
     printf("Failed to offset: %s\n", nvmlErrorString(ret_code));
     return EXIT_FAILURE;

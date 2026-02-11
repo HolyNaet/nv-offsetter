@@ -7,41 +7,41 @@
 
 #include "./printing.cu"
 
-int selectGPU(const unsigned int devCount) {
+int select_device_index(const unsigned int dev_count) {
   int devIdx = -1;
 
   while (1) {
-    for (unsigned int i = 0; i < devCount; ++i) printDevice(i);
+    for (unsigned int i = 0; i < dev_count; ++i) printDevice(i);
 
     printf("Choose which device to select: ");
     scanf("%d", &devIdx);
 
-    if (devIdx >= 0 && devIdx < devCount) break;
+    if (devIdx >= 0 && devIdx < dev_count) break;
     printf("Invalid Device ID, try again.\n");
   }
 
   return devIdx;
 }
 
-int getUUID(char* uuid) {
-  int gpuNum = 0;
-  unsigned int deviceCount = 0;
+int get_uuid(char* uuid) {
+  int gpu_idx = 0;
+  // unsigned int device_count = 0;
 
   nvmlDevice_t device;
   nvmlReturn_t code;
 
-  code = nvmlDeviceGetCount_v2(&deviceCount);
-  if (!deviceCount || code != NVML_SUCCESS) return EXIT_FAILURE;
+  // code = nvmlDeviceGetCount_v2(&device_count);
+  // if (!device_count || code != NVML_SUCCESS) return EXIT_FAILURE;
 
   // SLI is dead, typical laptops or desktop setups only have one dGPU
   // NVML is smart enough anyway, is it even worth implementing this?
-  if (deviceCount > 1) {
-    printf("\nMultiple GPU devices detected.\n");
-    gpuNum = selectGPU(deviceCount);
-  }
-  if (gpuNum == -1) return EXIT_FAILURE;
+  // if (device_count > 1) {
+  //   printf("\nMultiple GPU devices detected.\n");
+  //   gpu_idx = select_device_index(device_count);
+  // }
+  // if (gpu_idx == -1) return EXIT_FAILURE;
 
-  code = nvmlDeviceGetHandleByIndex_v2(gpuNum, &device);
+  code = nvmlDeviceGetHandleByIndex_v2(gpu_idx, &device);
   if (code != NVML_SUCCESS) return EXIT_FAILURE;
   code = nvmlDeviceGetUUID(device, uuid, NVML_DEVICE_UUID_V2_BUFFER_SIZE);
   if (code != NVML_SUCCESS) return EXIT_FAILURE;

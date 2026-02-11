@@ -41,22 +41,22 @@ nvmlReturn_t offset_clock(const nvmlDevice_t gpu_handle,
   return ret_code;
 }
 
-int offset_device(const nvmlDevice_t gpu_handle, const int core_offset,
-                  const unsigned int core_clk_range[2], const int mem_offset,
-                  const int mem_mult) {
+int offset_device(const nvmlDevice_t gpu_handle, const int graphics_offset,
+                  const unsigned int graphics_clk_range[2],
+                  const int mem_offset, const int mem_mult) {
   nvmlReturn_t ret_code;
 
-  printf("Clamping graphics clocks to [%u, %u]MHz\n", core_clk_range[0],
-         core_clk_range[1]);
-  ret_code = nvmlDeviceSetGpuLockedClocks(gpu_handle, core_clk_range[0],
-                                          core_clk_range[1]);
+  printf("Clamping graphics clocks to [%u, %u]MHz\n", graphics_clk_range[0],
+         graphics_clk_range[1]);
+  ret_code = nvmlDeviceSetGpuLockedClocks(gpu_handle, graphics_clk_range[0],
+                                          graphics_clk_range[1]);
   if (ret_code != NVML_SUCCESS) {
     printf("Failed to clamp: %s", nvmlErrorString(ret_code));
     return EXIT_FAILURE;
   }
 
-  printf("Attempting to offset graphics clock by %dMHz\n", core_offset);
-  ret_code = offset_clock(gpu_handle, NVML_CLOCK_GRAPHICS, core_offset);
+  printf("Attempting to offset graphics clock by %dMHz\n", graphics_offset);
+  ret_code = offset_clock(gpu_handle, NVML_CLOCK_GRAPHICS, graphics_offset);
   if (ret_code != NVML_SUCCESS) {
     printf("Failed to offset: %s\n", nvmlErrorString(ret_code));
     return EXIT_FAILURE;

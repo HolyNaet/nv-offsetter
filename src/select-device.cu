@@ -7,7 +7,7 @@
 
 #include "./printing.cu"
 
-int selectGPU(const unsigned int devCount) {
+int select_device_index(const unsigned int devCount) {
   int devIdx = -1;
 
   while (1) {
@@ -23,7 +23,7 @@ int selectGPU(const unsigned int devCount) {
   return devIdx;
 }
 
-int getUUID(char* uuid) {
+int get_uuid(char* uuid) {
   int gpuNum = 0;
   unsigned int deviceCount = 0;
 
@@ -37,7 +37,7 @@ int getUUID(char* uuid) {
   // NVML is smart enough anyway, is it even worth implementing this?
   if (deviceCount > 1) {
     printf("\nMultiple GPU devices detected.\n");
-    gpuNum = selectGPU(deviceCount);
+    gpuNum = select_device_index(deviceCount);
   }
   if (gpuNum == -1) return EXIT_FAILURE;
 

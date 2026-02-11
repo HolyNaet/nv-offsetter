@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  ret_code = getUUID(uuid);
+  ret_code = get_uuid(uuid);
   if (ret_code != EXIT_SUCCESS) {
     printf("Failed to retrieve UUID\n");
     return EXIT_FAILURE;

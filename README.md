@@ -1,7 +1,5 @@
 # NV Offsetter
 
----
-
 ## What is it?
 
 A simple program aimed for a few specific purpose, floating around on GitHub just like many other similar tools.
@@ -25,8 +23,6 @@ Todo list:
 - [ ] Conf priority(?)
 - [ ] Make types more concise (it's all int ATM)
 - [ ] Proper frequency cap
-
----
 
 ## Development
 
@@ -58,8 +54,6 @@ It doesn't have any arguments to begin with so you can run the program as-is (NV
 sudo make run
 ```
 
----
-
 ## Contributing
 
 Contributions are welcomed as long as the PR seems reasonable to me.
@@ -68,8 +62,6 @@ Contributions are welcomed as long as the PR seems reasonable to me.
 
 - [LACT](https://github.com/ilya-zlobintsev/LACT/) - A great tool for general users (in my opinion) who doesn't like using only CLI, or wants a featureful, better software that works on more than just NVIDIA GPUs. The aforementioned repository itself also refers to other tools which are worth checking out.
 - [jacklul's NVML scripts](https://github.com/jacklul/nvml-scripts) - A similar implementation in Python.
-
----
 
 ## Why?
 

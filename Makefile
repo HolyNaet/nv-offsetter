@@ -2,9 +2,10 @@ TARGET := nv-offsetter
 
 ESCALATE := sudo
 CXX := g++
-# CUFLAGS := -O3 -arch=sm_86
 CXXFLAGS := -O3
-LINKS := -lnvidia-ml -lconfuse
+# CU := nvcc
+# CUFLAGS := -O3 -arch=sm_86
+LDFLAGS := -lnvidia-ml -lconfuse
 
 SRC := ./src/main.cpp
 BUILD_DIR := ./build
@@ -13,7 +14,8 @@ INSTALL_DIR := /usr/local/bin/
 .PHONY: all
 all: ${SRC} get-nvml-header
 	@if [[ ! -d ${BUILD_DIR} ]]; then mkdir ${BUILD_DIR}; fi
-	${CXX} ${CXXFLAGS} ${LINKS} ${SRC} -o ${BUILD_DIR}/${TARGET}
+	@# ${CU} ${CUFLAGS} ${LDFLAGS} ${SRC} -o ${BUILD_DIR}/${TARGET}
+	${CXX} ${CXXFLAGS} ${LDFLAGS} ${SRC} -o ${BUILD_DIR}/${TARGET}
 
 # It might not work for you, but at least it works for Arch
 get-nvml-header:

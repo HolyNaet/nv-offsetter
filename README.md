@@ -26,7 +26,8 @@ Todo list:
 ## Development
 
 Dependencies:
-- cuda
+- cuda (nvidia-ml)
+- gcc
 - [confuse](https://github.com/libconfuse/libconfuse?tab=readme-ov-file)
 - Linux (I only plan to make this work on the said platform)
 

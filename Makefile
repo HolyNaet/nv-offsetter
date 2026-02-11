@@ -2,7 +2,7 @@ TARGET := nv-offsetter
 
 ESCALATE := sudo
 CXX := g++
-CXXFLAGS := -O3
+CXXFLAGS := -O3 -Wall -Wpedantic
 # CU := nvcc
 # CUFLAGS := -O3 -arch=sm_86
 LDFLAGS := -lnvidia-ml -lconfuse

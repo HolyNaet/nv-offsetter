@@ -24,10 +24,7 @@ nvmlReturn_t offset_clock(const nvmlDevice_t gpu_handle,
   if (clk_domain == 1 || clk_domain == 3) return NVML_ERROR_NOT_SUPPORTED;
 
   nvmlReturn_t ret_code = NVML_SUCCESS;
-  nvmlClockOffset_v1_t clk_target = {
-      .version = nvmlClockOffset_v1,
-      .type = clk_domain,
-  };
+  nvmlClockOffset_v1_t clk_target = {nvmlClockOffset_v1, clk_domain};
 
   ret_code = nvmlDeviceGetClockOffsets(gpu_handle, &clk_target);
   if (ret_code != NVML_SUCCESS)

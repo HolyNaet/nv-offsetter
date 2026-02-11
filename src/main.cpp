@@ -7,42 +7,15 @@
 #include <string>
 
 #include "../include/nvml.h"
+#include "./cfg-validation.cpp"
 #include "./offset.cpp"
 #include "./select-device.cpp"
-
-#define FREQ_LIMIT 2500
 
 #define GRAPHICS "graphics"
 #define GRAPHICS_MIN "graphics_min"
 #define GRAPHICS_MAX "graphics_max"
 #define MEMORY "mem"
 #define MEM_MULT 2
-
-#define STRING_BUF_SIZE 32
-
-int validate_clk_cap_limit(cfg_t* cfg, cfg_opt_t* opt) {
-  int value = cfg_opt_getnint(opt, cfg_opt_size(opt) - 1);
-  if (value < 0) {
-    cfg_error(cfg, "\"%s\" must be positive, found \"%d\"", opt->name, value);
-    return CFG_PARSE_ERROR;
-  }
-  if (value > FREQ_LIMIT) {
-    cfg_error(cfg, "\"%s\" must be lower than %d, found \"%d\"", opt->name,
-              FREQ_LIMIT, value);
-    return CFG_PARSE_ERROR;
-  }
-  return CFG_SUCCESS;
-}
-
-int validate_clk_limit(cfg_t* cfg, cfg_opt_t* opt) {
-  int value = cfg_opt_getnint(opt, cfg_opt_size(opt) - 1);
-  if (value < -FREQ_LIMIT || value > FREQ_LIMIT) {
-    cfg_error(cfg, "\"%s\" must be within [-%d, %d], found \"%d\"", opt->name,
-              FREQ_LIMIT, FREQ_LIMIT, value);
-    return CFG_PARSE_ERROR;
-  }
-  return CFG_SUCCESS;
-}
 
 int main(int argc, char* argv[]) {
   if (getuid()) {
@@ -51,8 +24,8 @@ int main(int argc, char* argv[]) {
   }
 
   // TODO: README.md
-  std::string conf_path;
-  const std::string strings[] = {"/etc/", basename(argv[0]), ".conf"};
+  std::string conf_path = "/etc/";
+  const std::string strings[] = {basename(argv[0]), ".conf"};
 
   for (auto str : *&strings) conf_path.append(str);
 

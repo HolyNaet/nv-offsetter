@@ -21,7 +21,7 @@ Todo list:
 - [ ] Conf priority(?)
 - [ ] Make types more concise (it's all int ATM)
 - [ ] Proper frequency cap
-- [ ] Systemd daemon file
+- [ ] Systemd daemon file (no plan for other init systems yet)
 
 ## Development
 

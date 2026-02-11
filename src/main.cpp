@@ -50,12 +50,9 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  // A very sloppy implementation indeed ;)
-  // But then it's not like you can use C++ strings anyway
-  // https://stackoverflow.com/a/9917145
-  // char conf_path[STRING_BUF_SIZE];
+  // TODO: README.md
   std::string conf_path;
-  const char* strings[] = {"/etc/", basename(argv[0]), ".conf"};
+  const std::string strings[] = {"/etc/", basename(argv[0]), ".conf"};
 
   for (auto str : *&strings) conf_path.append(str);
 

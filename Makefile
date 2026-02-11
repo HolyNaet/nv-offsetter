@@ -10,9 +10,13 @@ BUILD_DIR := ./build
 INSTALL_DIR := /usr/local/bin/
 
 .PHONY: all
-all: ${SRC}
+all: ${SRC} get-header
 	@if [[ ! -d ${BUILD_DIR} ]]; then mkdir ${BUILD_DIR}; fi
 	${CU} ${CUFLAGS} ${LINKS} ${SRC} -o ${BUILD_DIR}/${TARGET}
+
+# It might not work for you, but at least it works for Arch
+get-nvml-header:
+	cp /opt/cuda/targets/x86_64-linux/include/nvml.h ./include
 
 # Yeah, it's sloppy, but what are you going to do do about it?
 install: all

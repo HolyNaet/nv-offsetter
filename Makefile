@@ -1,8 +1,9 @@
 TARGET := nv-offsetter
 
 ESCALATE := sudo
-CU := nvcc
-CUFLAGS := -O3 -arch=sm_86
+CXX := g++
+# CUFLAGS := -O3 -arch=sm_86
+CXXFLAGS := -O3
 LINKS := -lnvidia-ml -lconfuse
 
 SRC := ./src/main.cpp
@@ -10,13 +11,13 @@ BUILD_DIR := ./build
 INSTALL_DIR := /usr/local/bin/
 
 .PHONY: all
-all: ${SRC} get-header
+all: ${SRC} get-nvml-header
 	@if [[ ! -d ${BUILD_DIR} ]]; then mkdir ${BUILD_DIR}; fi
-	${CU} ${CUFLAGS} ${LINKS} ${SRC} -o ${BUILD_DIR}/${TARGET}
+	${CXX} ${CXXFLAGS} ${LINKS} ${SRC} -o ${BUILD_DIR}/${TARGET}
 
 # It might not work for you, but at least it works for Arch
 get-nvml-header:
-	mkdir ./include
+	@if [[ ! -d ./include ]]; then mkdir ./include ; fi
 	cp /opt/cuda/targets/x86_64-linux/include/nvml.h ./include/
 
 # Yeah, it's sloppy, but what are you going to do do about it?

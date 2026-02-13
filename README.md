@@ -37,6 +37,26 @@ Building:
 make
 ```
 
+Installing:
+
+```bash
+sudo make install
+```
+
+This will install both the binary and it's systemd service file to `/usr/sbin`.
+
+Optionally, you can run this instead to also install systemd unit file (which goes to `/usr/lib/systemd/system`):
+
+```bash
+sudo make install-systemd
+```
+
+Uninstalling:
+
+```bash
+sudo make clean
+```
+
 ## Usage
 
 Before running, the following values must be set in `/etc/nv-offsetter.conf` in MHz:

@@ -1,0 +1,16 @@
+[Unit]
+Description=nv-offsetter
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/nv-offsetter
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
+# PrivateDevices=yes # Can't use this
+PrivateNetwork=yes
+PrivateTmp=yes
+# PrivateUsers=yes # Can't use this either
+ProtectClock=yes
+ProtectHome=true
+RestrictSUIDSGID=yes

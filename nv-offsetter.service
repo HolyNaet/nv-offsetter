@@ -4,13 +4,33 @@ Description=nv-offsetter
 [Service]
 Type=oneshot
 ExecStart=/usr/sbin/nv-offsetter
+
 LockPersonality=yes
 MemoryDenyWriteExecute=yes
-NoNewPrivileges=yes
-# PrivateDevices=yes # Can't use this
-PrivateNetwork=yes
-PrivateTmp=yes
-# PrivateUsers=yes # Can't use this either
-ProtectClock=yes
-ProtectHome=true
 RestrictSUIDSGID=yes
+ProcSubset=pid
+NoNewPrivileges=yes
+ProtectHome=true
+UMask=0777
+
+CapabilityBoundingSet=CAP_SYS_ADMIN
+SystemCallFilter=
+
+IPAddressDeny=any
+
+PrivateTmp=yes
+# PrivateDevices=yes # Can't use this
+# PrivateUsers=yes # Can't use this either
+PrivateNetwork=yes
+
+ProtectClock=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+
+RestrictAddressFamilies=none
+RestrictRealtime=yes
+RestrictNamespaces=yes
+
+SystemCallFilter=~@mount @reboot @swap

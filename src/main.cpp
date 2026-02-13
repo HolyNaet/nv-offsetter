@@ -17,7 +17,7 @@
 #define MEMORY "mem"
 #define MEM_MULT 2
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   if (getuid()) {
     printf("Root priviledges required\n");
     return EXIT_FAILURE;
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
                       CFG_INT(GRAPHICS_MAX, FREQ_LIMIT - 50, CFGF_NONE),
                       CFG_INT(MEMORY, 0, CFGF_NONE), CFG_END()};
 
-  cfg_t* cfg = cfg_init(opts, CFGF_NONE);
+  cfg_t *cfg = cfg_init(opts, CFGF_NONE);
 
   cfg_set_validate_func(cfg, GRAPHICS, validate_offset_limit);
   cfg_set_validate_func(cfg, GRAPHICS_MIN, validate_clk_cap_limit);

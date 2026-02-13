@@ -23,7 +23,7 @@
 //   return devIdx;
 // }
 
-int get_uuid(char* uuid) {
+int get_uuid(char *uuid) {
   int gpu_idx = 0;
   // unsigned int device_count = 0;
 

@@ -28,7 +28,7 @@ int get_uuid(char* uuid) {
   // unsigned int device_count = 0;
 
   nvmlDevice_t device;
-  nvmlReturn_t code;
+  nvmlReturn_t ret;
 
   // code = nvmlDeviceGetCount_v2(&device_count);
   // if (!device_count || code != NVML_SUCCESS) return EXIT_FAILURE;
@@ -41,10 +41,10 @@ int get_uuid(char* uuid) {
   // }
   // if (gpu_idx == -1) return EXIT_FAILURE;
 
-  code = nvmlDeviceGetHandleByIndex_v2(gpu_idx, &device);
-  if (code != NVML_SUCCESS) return EXIT_FAILURE;
-  code = nvmlDeviceGetUUID(device, uuid, NVML_DEVICE_UUID_V2_BUFFER_SIZE);
-  if (code != NVML_SUCCESS) return EXIT_FAILURE;
+  ret = nvmlDeviceGetHandleByIndex_v2(gpu_idx, &device);
+  if (ret != NVML_SUCCESS) return EXIT_FAILURE;
+  ret = nvmlDeviceGetUUID(device, uuid, NVML_DEVICE_UUID_V2_BUFFER_SIZE);
+  if (ret != NVML_SUCCESS) return EXIT_FAILURE;
 
   return EXIT_SUCCESS;
 }

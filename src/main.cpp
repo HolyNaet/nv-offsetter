@@ -36,10 +36,10 @@ int main(int argc, char* argv[]) {
 
   cfg_t* cfg = cfg_init(opts, CFGF_NONE);
 
-  cfg_set_validate_func(cfg, GRAPHICS, validate_clk_limit);
+  cfg_set_validate_func(cfg, GRAPHICS, validate_offset_limit);
   cfg_set_validate_func(cfg, GRAPHICS_MIN, validate_clk_cap_limit);
   cfg_set_validate_func(cfg, GRAPHICS_MAX, validate_clk_cap_limit);
-  cfg_set_validate_func(cfg, MEMORY, validate_clk_limit);
+  cfg_set_validate_func(cfg, MEMORY, validate_offset_limit);
 
   switch (cfg_parse(cfg, conf_path.c_str())) {
     case CFG_SUCCESS:
@@ -62,17 +62,17 @@ int main(int argc, char* argv[]) {
 
   char uuid[NVML_DEVICE_UUID_V2_BUFFER_SIZE];
   nvmlDevice_t gpu;
-  nvmlReturn_t nvml_ret_code;
-  int ret_code;
+  nvmlReturn_t nvml_ret;
+  int ret;
 
-  nvml_ret_code = nvmlInit_v2();
-  if (nvml_ret_code != NVML_SUCCESS) {
-    printf("Failed to initialize NVML (%s)\n", nvmlErrorString(nvml_ret_code));
+  nvml_ret = nvmlInit_v2();
+  if (nvml_ret != NVML_SUCCESS) {
+    printf("Failed to initialize NVML (%s)\n", nvmlErrorString(nvml_ret));
     return EXIT_FAILURE;
   }
 
-  ret_code = get_uuid(uuid);
-  if (ret_code != EXIT_SUCCESS) {
+  ret = get_uuid(uuid);
+  if (ret != EXIT_SUCCESS) {
     printf("Failed to retrieve UUID\n");
     return EXIT_FAILURE;
   }
@@ -81,22 +81,21 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  nvml_ret_code = nvmlDeviceGetHandleByUUID(uuid, &gpu);
-  if (nvml_ret_code != NVML_SUCCESS) {
-    printf("Failed to retrieve gpu %s: %s\n", uuid,
-           nvmlErrorString(nvml_ret_code));
+  nvml_ret = nvmlDeviceGetHandleByUUID(uuid, &gpu);
+  if (nvml_ret != NVML_SUCCESS) {
+    printf("Failed to retrieve gpu %s: %s\n", uuid, nvmlErrorString(nvml_ret));
     return EXIT_FAILURE;
   }
 
-  ret_code = offset_device(gpu, graphics_offset, graphics_clk_range, mem_offset,
-                           MEM_MULT);
-  if (ret_code != EXIT_SUCCESS) {
+  ret = offset_device(gpu, graphics_offset, graphics_clk_range, mem_offset,
+                      MEM_MULT);
+  if (ret != EXIT_SUCCESS) {
     printf("Something went wrong\n");
   }
 
-  nvml_ret_code = nvmlShutdown();
-  if (nvml_ret_code != NVML_SUCCESS) {
-    printf("Failed to shut down NVML: %s\n", nvmlErrorString(nvml_ret_code));
+  nvml_ret = nvmlShutdown();
+  if (nvml_ret != NVML_SUCCESS) {
+    printf("Failed to shut down NVML: %s\n", nvmlErrorString(nvml_ret));
     return EXIT_FAILURE;
   }
 

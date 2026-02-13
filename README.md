@@ -15,7 +15,7 @@ And does not:
 - Have a GUI
 - Have the ability to change fan curves
 
-Todo list:
+TODO (can't be bothered to use milestones feature):
 - [ ] PKGBUILD
 - [ ] Read conf depending on install location
 - [ ] Conf priority(?)
@@ -26,7 +26,8 @@ Todo list:
 ## Development
 
 Dependencies:
-- cuda
+- cuda (nvidia-ml)
+- gcc
 - [confuse](https://github.com/libconfuse/libconfuse?tab=readme-ov-file)
 - Linux (I only plan to make this work on the said platform)
 
@@ -50,7 +51,7 @@ mem // The amount to offset in accordance to nvidia-smi, as the program hardcode
 It doesn't have any arguments to begin with so you can run the program as-is (NVML requires super user priviledge to manipulate the device however):
 
 ```bash
-sudo make run
+sudo make test
 ```
 
 ## Contributing

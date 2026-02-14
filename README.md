@@ -21,7 +21,7 @@ TODO (can't be bothered to use milestones feature):
 - [ ] Conf priority(?)
 - [ ] Make types more concise (it's all int ATM)
 - [ ] Proper frequency cap
-- [ ] Systemd daemon file (no plan for other init systems yet)
+- [x] Systemd daemon file (no plan for other init systems yet)
 
 ## Development
 

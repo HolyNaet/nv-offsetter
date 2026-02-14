@@ -15,14 +15,6 @@ And does not:
 - Have a GUI
 - Have the ability to change fan curves
 
-TODO (can't be bothered to use milestones feature):
-- [ ] PKGBUILD
-- [ ] Read conf depending on install location
-- [ ] Conf priority(?)
-- [ ] Make types more concise (it's all int ATM)
-- [ ] Proper frequency cap
-- [x] Systemd daemon file (no plan for other init systems yet)
-
 ## Development
 
 Dependencies:

@@ -49,7 +49,7 @@ int offset_device(const nvmlDevice_t gpu_handle, const int graphics_offset,
   ret = nvmlDeviceSetGpuLockedClocks(gpu_handle, graphics_clk_range[0],
                                      graphics_clk_range[1]);
   if (ret != NVML_SUCCESS) {
-    printf("Failed to clamp: %s", nvmlErrorString(ret));
+    printf("Failed to clamp: %s\n", nvmlErrorString(ret));
     return EXIT_FAILURE;
   }
 

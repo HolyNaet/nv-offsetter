@@ -1,8 +1,3 @@
-// https://docs.nvidia.com/deploy/nvidia-smi/index.html
-
-// Thank lord they sorted the pstate out already:
-// https://forums.developer.nvidia.com/t/nvmldevicegetminmaxclockofpstate-nvmldevicesetclockoffsets-issues/318332
-
 // Personal observation in 2026-02-05: nvmlDeviceGetClockOffsets channges all
 // pstate clocks regardless of the specified pstate. Therefore it is
 // unnecessary to use a loop when offseting clocks of any domains.

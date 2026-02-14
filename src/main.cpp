@@ -1,4 +1,3 @@
-// uhh, yeah, string for std::string, the other for basename
 #include <confuse.h>
 #include <string.h>
 #include <unistd.h>

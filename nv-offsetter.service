@@ -3,7 +3,7 @@ Description=nv-offsetter
 
 [Service]
 Type=oneshot
-ExecStart=/usr/sbin/nv-offsetter
+ExecStart=/usr/local/sbin/nv-offsetter
 
 LockPersonality=yes
 MemoryDenyWriteExecute=yes

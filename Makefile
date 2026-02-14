@@ -1,6 +1,6 @@
 TARGET := nv-offsetter
 SERVICE_FILE := ${TARGET}.service
-SERVICE_DIR := /usr/lib/systemd/system
+SERVICE_DIR := /etc/systemd/system
 
 CXX := g++
 CXXFLAGS := -O3 -Wall -Wpedantic
@@ -8,7 +8,7 @@ LDFLAGS := -lnvidia-ml -lconfuse
 
 SRC := ./src/main.cpp
 BUILD_DIR := ./build
-INSTALL_DIR := /usr/sbin
+INSTALL_DIR := /usr/local/sbin
 
 all:
 	@if [[ ! -d ${BUILD_DIR} ]]; then mkdir ${BUILD_DIR}; fi

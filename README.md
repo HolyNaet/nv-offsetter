@@ -43,9 +43,7 @@ Installing:
 sudo make install
 ```
 
-This will install the binary file to `/usr/sbin`.
-
-Optionally, you can run to also install systemd unit file (which goes to `/usr/lib/systemd/system`):
+Optionally, you can run to also install systemd unit file.
 
 ```bash
 sudo make install-systemd

@@ -15,14 +15,6 @@ And does not:
 - Have a GUI
 - Have the ability to change fan curves
 
-TODO (can't be bothered to use milestones feature):
-- [ ] PKGBUILD
-- [ ] Read conf depending on install location
-- [ ] Conf priority(?)
-- [ ] Make types more concise (it's all int ATM)
-- [ ] Proper frequency cap
-- [x] Systemd daemon file (no plan for other init systems yet)
-
 ## Development
 
 Dependencies:
@@ -43,9 +35,7 @@ Installing:
 sudo make install
 ```
 
-This will install the binary file to `/usr/sbin`.
-
-Optionally, you can run to also install systemd unit file (which goes to `/usr/lib/systemd/system`):
+Optionally, you can run this also install systemd unit file:
 
 ```bash
 sudo make install-systemd
@@ -71,7 +61,7 @@ mem // The amount to offset in accordance to nvidia-smi, as the program hardcode
 It doesn't have any arguments to begin with so you can run the program as-is (NVML requires super user priviledge to manipulate the device however):
 
 ```bash
-sudo make test
+sudo make run
 ```
 
 ## Contributing

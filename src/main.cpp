@@ -18,83 +18,84 @@
 #define MEM_MULT 2
 
 int main(int argc, char *argv[]) {
-  if (getuid()) {
-    printf("Root priviledges required\n");
-    return EXIT_FAILURE;
-  }
+    if (getuid()) {
+        printf("Root priviledges required\n");
+        return EXIT_FAILURE;
+    }
 
-  // TODO: README.md
-  std::string conf_path = "/etc/";
-  const std::string strings[] = {basename(argv[0]), ".conf"};
+    // TODO: README.md
+    std::string conf_path = "/etc/";
+    const std::string strings[] = {basename(argv[0]), ".conf"};
 
-  for (auto str : *&strings) conf_path.append(str);
+    for (auto str : *&strings) conf_path.append(str);
 
-  cfg_opt_t opts[] = {CFG_INT(GRAPHICS, 0, CFGF_NONE),
-                      CFG_INT(GRAPHICS_MIN, 0, CFGF_NONE),
-                      CFG_INT(GRAPHICS_MAX, FREQ_LIMIT - 50, CFGF_NONE),
-                      CFG_INT(MEMORY, 0, CFGF_NONE), CFG_END()};
+    cfg_opt_t opts[] = {CFG_INT(GRAPHICS, 0, CFGF_NONE),
+                        CFG_INT(GRAPHICS_MIN, 0, CFGF_NONE),
+                        CFG_INT(GRAPHICS_MAX, FREQ_LIMIT - 50, CFGF_NONE),
+                        CFG_INT(MEMORY, 0, CFGF_NONE), CFG_END()};
 
-  cfg_t *cfg = cfg_init(opts, CFGF_NONE);
+    cfg_t *cfg = cfg_init(opts, CFGF_NONE);
 
-  cfg_set_validate_func(cfg, GRAPHICS, validate_offset_limit);
-  cfg_set_validate_func(cfg, GRAPHICS_MIN, validate_clk_cap_limit);
-  cfg_set_validate_func(cfg, GRAPHICS_MAX, validate_clk_cap_limit);
-  cfg_set_validate_func(cfg, MEMORY, validate_offset_limit);
+    cfg_set_validate_func(cfg, GRAPHICS, validate_offset_limit);
+    cfg_set_validate_func(cfg, GRAPHICS_MIN, validate_clk_cap_limit);
+    cfg_set_validate_func(cfg, GRAPHICS_MAX, validate_clk_cap_limit);
+    cfg_set_validate_func(cfg, MEMORY, validate_offset_limit);
 
-  switch (cfg_parse(cfg, conf_path.c_str())) {
-    case CFG_SUCCESS:
-      break;
-    case CFG_FILE_ERROR:
-    case CFG_PARSE_ERROR:
-      printf("Failed to open file \"%s\"\n", conf_path.c_str());
-      cfg_free(cfg);
-      return EXIT_FAILURE;
-  }
+    switch (cfg_parse(cfg, conf_path.c_str())) {
+        case CFG_SUCCESS:
+            break;
+        case CFG_FILE_ERROR:
+        case CFG_PARSE_ERROR:
+            printf("Failed to open file \"%s\"\n", conf_path.c_str());
+            cfg_free(cfg);
+            return EXIT_FAILURE;
+    }
 
-  // Should do something about this
-  const int graphics_offset = cfg_getint(cfg, GRAPHICS);
-  const unsigned int graphics_clk_range[] = {
-      static_cast<unsigned int>(cfg_getint(cfg, GRAPHICS_MIN)),
-      static_cast<unsigned int>(cfg_getint(cfg, GRAPHICS_MAX))};
-  const int mem_offset = cfg_getint(cfg, MEMORY);
+    // Should do something about this
+    const int graphics_offset = cfg_getint(cfg, GRAPHICS);
+    const unsigned int graphics_clk_range[] = {
+        static_cast<unsigned int>(cfg_getint(cfg, GRAPHICS_MIN)),
+        static_cast<unsigned int>(cfg_getint(cfg, GRAPHICS_MAX))};
+    const int mem_offset = cfg_getint(cfg, MEMORY);
 
-  cfg_free(cfg);
+    cfg_free(cfg);
 
-  char uuid[NVML_DEVICE_UUID_V2_BUFFER_SIZE];
-  nvmlDevice_t gpu;
-  nvmlReturn_t nvml_ret;
-  int ret;
+    char uuid[NVML_DEVICE_UUID_V2_BUFFER_SIZE];
+    nvmlDevice_t gpu;
+    nvmlReturn_t nvml_ret;
+    int ret;
 
-  nvml_ret = nvmlInit_v2();
-  if (nvml_ret != NVML_SUCCESS) {
-    printf("Failed to initialize NVML (%s)\n", nvmlErrorString(nvml_ret));
-    return EXIT_FAILURE;
-  }
+    nvml_ret = nvmlInit_v2();
+    if (nvml_ret != NVML_SUCCESS) {
+        printf("Failed to initialize NVML (%s)\n", nvmlErrorString(nvml_ret));
+        return EXIT_FAILURE;
+    }
 
-  ret = get_uuid(uuid);
-  if (ret != EXIT_SUCCESS) {
-    printf("Failed to retrieve UUID\n");
-    return EXIT_FAILURE;
-  }
-  if (!*uuid) {
-    printf("No GPU device detected, exiting\n");
-    return EXIT_FAILURE;
-  }
+    ret = get_uuid(uuid);
+    if (ret != EXIT_SUCCESS) {
+        printf("Failed to retrieve UUID\n");
+        return EXIT_FAILURE;
+    }
+    if (!*uuid) {
+        printf("No GPU device detected, exiting\n");
+        return EXIT_FAILURE;
+    }
 
-  nvml_ret = nvmlDeviceGetHandleByUUID(uuid, &gpu);
-  if (nvml_ret != NVML_SUCCESS) {
-    printf("Failed to retrieve gpu %s: %s\n", uuid, nvmlErrorString(nvml_ret));
-    return EXIT_FAILURE;
-  }
+    nvml_ret = nvmlDeviceGetHandleByUUID(uuid, &gpu);
+    if (nvml_ret != NVML_SUCCESS) {
+        printf("Failed to retrieve gpu %s: %s\n", uuid,
+               nvmlErrorString(nvml_ret));
+        return EXIT_FAILURE;
+    }
 
-  ret = offset_device(gpu, graphics_offset, graphics_clk_range, mem_offset,
-                      MEM_MULT);
+    ret = offset_device(gpu, graphics_offset, graphics_clk_range, mem_offset,
+                        MEM_MULT);
 
-  nvml_ret = nvmlShutdown();
-  if (nvml_ret != NVML_SUCCESS) {
-    printf("Failed to shut down NVML: %s\n", nvmlErrorString(nvml_ret));
-    return EXIT_FAILURE;
-  }
+    nvml_ret = nvmlShutdown();
+    if (nvml_ret != NVML_SUCCESS) {
+        printf("Failed to shut down NVML: %s\n", nvmlErrorString(nvml_ret));
+        return EXIT_FAILURE;
+    }
 
-  return ret;
+    return ret;
 }

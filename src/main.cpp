@@ -89,9 +89,6 @@ int main(int argc, char *argv[]) {
 
   ret = offset_device(gpu, graphics_offset, graphics_clk_range, mem_offset,
                       MEM_MULT);
-  if (ret != EXIT_SUCCESS) {
-    printf("Something went wrong\n");
-  }
 
   nvml_ret = nvmlShutdown();
   if (nvml_ret != NVML_SUCCESS) {

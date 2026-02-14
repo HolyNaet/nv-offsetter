@@ -43,7 +43,7 @@ Installing:
 sudo make install
 ```
 
-Optionally, you can run to also install systemd unit file.
+Optionally, you can run this also install systemd unit file.
 
 ```bash
 sudo make install-systemd

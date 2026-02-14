@@ -69,7 +69,7 @@ mem // The amount to offset in accordance to nvidia-smi, as the program hardcode
 It doesn't have any arguments to begin with so you can run the program as-is (NVML requires super user priviledge to manipulate the device however):
 
 ```bash
-sudo make test
+sudo make run
 ```
 
 ## Contributing

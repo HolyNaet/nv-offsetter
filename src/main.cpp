@@ -99,6 +99,5 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  printf("Exiting\n");
-  return EXIT_SUCCESS;
+  return ret;
 }

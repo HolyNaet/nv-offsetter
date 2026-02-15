@@ -5,32 +5,15 @@ Description=nv-offsetter
 Type=oneshot
 ExecStart=/usr/local/sbin/nv-offsetter
 
-LockPersonality=yes
-MemoryDenyWriteExecute=yes
-ProcSubset=pid
-NoNewPrivileges=yes
-RestrictSUIDSGID=yes
-UMask=0777
-SystemCallArchitectures=native
-
 CapabilityBoundingSet=CAP_SYS_ADMIN
-SystemCallFilter=
-
+LockPersonality=yes
 IPAddressDeny=any
-
-PrivateTmp=yes
-# Can't use this
-# PrivateDevices=yes
-# DevicePolicy=strict
-# DeviceAllow=/dev/nvidia0
-# DeviceAllow=/dev/nvidiactl
-# DeviceAllow=/dev/nvidia-uvm
-# DeviceAllow=/dev/nvidia-modeset
-# DeviceAllow=/dev/nvidia-uvm-tools
-# Can't use this either
-# PrivateUsers=yes
+MemoryDenyWriteExecute=yes
+NoNewPrivileges=yes
 PrivateNetwork=yes
-
+PrivateTmp=yes
+PrivateUser=read-only
+ProcSubset=pid
 ProtectClock=yes
 ProtectControlGroups=yes
 ProtectHome=yes
@@ -40,14 +23,14 @@ ProtectKernelModules=yes
 ProtectKernelTunables=yes
 ProtectProc=invisible
 ProtectSystem=strict
-
 RestrictAddressFamilies=none
-RestrictRealtime=yes
 RestrictNamespaces=yes
-
-# Don't ask me how this works
-# An allowlist is too much effort ATM
-SystemCallFilter=~@mount @reboot @swap @privileged @debug @cpu-emulation @obsolete @resources
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@resources @privileged
+UMask=0777
 
 [Install]
 WantedBy=multi-user.target

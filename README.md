@@ -18,7 +18,7 @@ And does not:
 ## Development
 
 Dependencies:
-- cuda (nvidia-ml)
+- cuda (for `nvml.h`, otherwise it is not a hard dependency)
 - gcc
 - [confuse](https://github.com/libconfuse/libconfuse?tab=readme-ov-file)
 - Linux (I only plan to make this work on the said platform)

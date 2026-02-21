@@ -12,7 +12,6 @@ MemoryDenyWriteExecute=yes
 NoNewPrivileges=yes
 PrivateNetwork=yes
 PrivateTmp=yes
-PrivateUser=read-only
 ProcSubset=pid
 ProtectClock=yes
 ProtectControlGroups=yes

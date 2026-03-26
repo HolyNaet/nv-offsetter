@@ -1,3 +1,5 @@
+Moved to https://codeberg.org/eternum/nv-offsetter
+
 # NV Offsetter
 
 ## What is it?
